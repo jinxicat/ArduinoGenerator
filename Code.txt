@@ -1,0 +1,305 @@
+#include <SPI.h>
+#include <DMD.h>
+#include <TimerOne.h>
+#define DISPLAYS_ACROSS 5
+#define DISPLAYS_DOWN 1
+DMD dmd(DISPLAYS_ACROSS, DISPLAYS_DOWN);
+int readPin = 3;
+int ledPin = 4;
+int upcount = 0;
+int downcount = 0;
+int i = 159;
+int j = 0;
+int k = 15;
+int ani = random(1,4);
+int tmsb;
+int tmsu;
+int deltaTime;
+int rise = random(1,4);
+int aaa = 0;
+int bbb = 0;
+int zzz = 0;
+
+void scanDMD(){
+  dmd.scanDisplayBySPI();
+}
+
+void setup() {
+  pinMode(readPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
+  Timer1.initialize(5000);
+  Timer1.attachInterrupt(scanDMD);
+  dmd.clearScreen(true);
+}
+
+void drawOne(int z, int j, int k, int l, int m, int n, int o, int p, int a){
+  dmd.drawCircle(k,m,z,GRAPHICS_NORMAL);
+  dmd.drawCircle(l,n,j,GRAPHICS_NORMAL);
+  dmd.drawCircle(o,p,a,GRAPHICS_NORMAL);
+  delay(25);
+}
+
+void fire1(int w, int ww){
+  dmd.writePixel(w,ww,GRAPHICS_NORMAL,1);
+  delay(5);
+  dmd.writePixel(w,ww,GRAPHICS_NORMAL,0);
+   }
+
+void fire2(int q, int qq){
+  dmd.writePixel(q,qq,GRAPHICS_NORMAL,1);
+  delay(5);
+  dmd.writePixel(q,qq,GRAPHICS_NORMAL,0);
+  }
+
+void fire3(int e, int ee){
+  dmd.writePixel(e,ee,GRAPHICS_NORMAL,1);
+  delay(5);
+  dmd.writePixel(e,ee,GRAPHICS_NORMAL,0);
+  }
+
+void bub(int bb, int cc, int dd){
+  dmd.drawCircle(bb,cc,dd,GRAPHICS_NORMAL);
+}
+
+void draw(int a, int b){
+  dmd.writePixel(a,b,GRAPHICS_NORMAL,1);  
+}
+
+void animation1(){
+int w = 159;
+int q = 159;
+int e = 159;
+int ww = random(0,5);
+int qq = random(10,15);
+int ee = random(5,10);
+int firestart = millis();
+while(e > 0){
+  int ft = millis();
+  fire1(w,ww);
+  w--;
+  if(ft-firestart > 200){
+    fire2(q,qq);
+    q--;   
+    }
+  if(ft-firestart > 600){
+    fire3(e,ee);
+    e--;
+    }
+  }
+  if(e==0){
+  int z = 0;
+  int j = 0;
+  int a = 0;
+  int t = 0;
+  int k = random(7,25);
+  int l = random(7,25);
+  int m = random(3,12);
+  int n = random(3,12);
+  int o = random(7,25);
+  int p = random(3,12);
+  while(t < 200){
+    drawOne(z,j,k,l,m,n,o,p,a);
+    if(z==4){
+      dmd.clearScreen(true);
+      z=1;
+      j=0;
+      a=1;
+      k = random(7,25);
+      j = random(7,25);
+      m = random(3,12);
+      n = random(3,12);
+      o = random(7,25);
+      p = random(3,12);
+   }
+    else{z++;
+    j = j+2;
+    a++;}
+  t++;
+    }
+  }
+}
+
+void animation2(){
+  for(int counter = 0; counter < 2; counter++){
+    int bubst = millis();
+    int b1 = 159;
+    int b2 = 159;
+    int b3 = 159;
+    int b4 = 159;
+    int b5 = 159;
+    int b6 = 159;
+    int b7 = 159;
+    int cc1 = random(5,10);
+    int dd1 = random(2,10);
+    int cc2 = random(5,10);
+    int dd2 = random(2,10);
+    int cc3 = random(5,10);
+    int dd3 = random(2,10);
+    int cc4 = random(5,10);
+    int dd4 = random(2,10);
+    int cc5 = random(5,10);
+    int dd5 = random(2,10);
+    int cc6 = random(5,10);
+    int dd6 = random(2,10);
+    int cc7 = random(5,10);
+    int dd7 = random(2,10);
+    while(b7>0){
+    int st = millis();
+    bub(b1,cc1,dd1);
+    b1--;
+    if(st-bubst > 120){
+      bub(b2,cc2,dd2);
+      b2--;   
+      }
+    if(st-bubst > 300){
+      bub(b3,cc3,dd3);
+      b3--;
+      }
+    if(st-bubst > 520){
+      bub(b4,cc4,dd4);
+      b4--;   
+      }
+    if(st-bubst > 760){
+      bub(b5,cc5,dd5);
+      b5--;
+      }
+    if(st-bubst > 1000){
+      bub(b6,cc6,dd6);
+      b6--;
+      }
+    if(st-bubst > 1200){
+      bub(b7,cc7,dd7);
+      b7--;
+      }
+    delay(15);
+    dmd.clearScreen(true);
+    }
+  }
+}
+
+void animation3(){
+  draw(aaa,bbb);
+  while(zzz<1750){
+    int deltax=random(0,160);
+    int deltay=random(0,16);
+    draw(aaa+deltax,bbb+deltay);
+    delay(3);
+    zzz++;
+ }
+ dmd.clearScreen(true);
+}
+
+void drawBar(int i){
+  dmd.drawLine(i,0,i,15,GRAPHICS_NORMAL);
+}
+
+void drawArrow(int i, int j, int k){
+  dmd.drawLine(i,j,i,k,GRAPHICS_NORMAL);
+}
+
+void drawRombus(int i, int j, int k){
+  dmd.drawLine(i,j,i,k,GRAPHICS_NORMAL);
+}
+
+void loop() {
+  int gateStatus = digitalRead(readPin);
+//  Serial.println(gateStatus);
+  if(gateStatus == 1){
+    tmsb = millis();
+    digitalWrite(ledPin, HIGH);
+  }
+  if(gateStatus == 0){
+    tmsu = millis();
+    digitalWrite(ledPin, LOW); 
+    }
+  deltaTime = tmsb-tmsu;
+  if(deltaTime < 0){
+    deltaTime = deltaTime * -1;
+    }
+  //int freq = 1/(0.001*deltaTime);
+  //Serial.println(freq);
+  //Serial.println(i);
+  Serial.println(deltaTime);
+  if(deltaTime <= 20){
+    if(i==0){
+      dmd.clearScreen(true);
+      if(ani == 1){
+        animation1();
+        for(int g = 0; g < 15; g++){
+          ani = random(1,4);
+        }
+      }
+      else if(ani == 2){
+        animation2();
+        for(int g = 0; g < 15; g++){
+          ani = random(1,4);
+        }
+      }
+      else if(ani == 3){
+        animation3();
+        for(int g = 0; g < 15; g++){
+          ani = random(1,4);
+        }
+      }
+      dmd.clearScreen(true);
+      for(int g = 0; g < 15; g++){
+        rise = random(1,4);
+      }
+      i=i+159;
+    }
+    else if(i!=0){
+      downcount = 0;
+      upcount++;
+      if(upcount > 30){
+        if(rise == 1){
+          drawBar(i);
+        }
+        else if(rise == 2){
+          drawArrow(i,j,k);
+          if(j==7){
+            j = 0;
+           }
+          if(k==8){
+            k = 15;
+           }
+          else{
+            j++;
+            k--;
+           }
+        }
+        else if(rise == 3){
+          drawRombus(i,j,k);
+          if(j==15){
+            j = 0;
+          } 
+          if(k==0){
+            k = 15;
+          }
+          else{
+            j++;
+            k--;
+          }
+        }
+        i--;
+        upcount = 0;
+      }
+    }
+  }
+  else{
+    upcount = 0;
+    if(downcount <= 500){
+    downcount++;
+    }
+    if(downcount > 500 && i <= 159){
+        for(int j = 0; j < 16; j++){
+          dmd.writePixel(i,j,GRAPHICS_NORMAL,0);}
+      i++;
+      delay(100);
+      }
+   if(deltaTime <= 110){
+    downcount = 0;
+    upcount++;
+      }
+   }
+}
