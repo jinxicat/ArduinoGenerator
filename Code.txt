@@ -187,9 +187,9 @@ void animation3(){
     int deltax=random(0,160);
     int deltay=random(0,16);
     draw(aaa+deltax,bbb+deltay);
-    delay(3);
     zzz++;
  }
+ delay(3);
  dmd.clearScreen(true);
 }
 
