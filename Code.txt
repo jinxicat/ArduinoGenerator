@@ -66,6 +66,7 @@ void draw(int a, int b){
   dmd.writePixel(a,b,GRAPHICS_NORMAL,1);  
 }
 
+#### Fireworks Animation ####
 void animation1(){
 int w = 159;
 int q = 159;
@@ -120,6 +121,7 @@ while(e > 0){
   }
 }
 
+#### Bubbles Animation ####
 void animation2(){
   for(int counter = 0; counter < 2; counter++){
     int bubst = millis();
@@ -178,6 +180,7 @@ void animation2(){
   }
 }
 
+#### Random Animation ####
 void animation3(){
   draw(aaa,bbb);
   while(zzz<1750){
@@ -226,6 +229,8 @@ void loop() {
       dmd.clearScreen(true);
       if(ani == 1){
         animation1();
+        #### this for loop basically is an attempt to
+        #### create a truley random number 1,4 on an arduino
         for(int g = 0; g < 15; g++){
           ani = random(1,4);
         }
